@@ -155,7 +155,7 @@ static void onCrash(struct KSCrash_MonitorContext* monitorContext)
 
 KSCrashMonitorType kscrash_install(const char* appName, const char* const installPath)
 {
-    KSLOG_DEBUG("Installing crash reporter.");
+    KSLOG_DEBUG("Installing crash reporter.2222");
 
     if(g_installed)
     {
@@ -362,6 +362,7 @@ char* kscrash_readReport(int64_t reportID)
 
 int64_t kscrash_addUserReport(const char* report, int reportLength)
 {
+//    char* report2 = "XXXXX";
     return kscrs_addUserReport(report, reportLength);
 }
 

@@ -196,6 +196,7 @@ int64_t kscrs_getNextCrashReport(char* crashReportPathBuffer)
 
 int kscrs_getReportCount()
 {
+    printf("kscrs_getReportCount by debug\n");
     pthread_mutex_lock(&g_mutex);
     int count = getReportCount();
     pthread_mutex_unlock(&g_mutex);
@@ -223,6 +224,7 @@ char* kscrs_readReport(int64_t reportID)
 
 int64_t kscrs_addUserReport(const char* report, int reportLength)
 {
+    printf("kscrs_addUserReport by debug\n");
     pthread_mutex_lock(&g_mutex);
     int64_t currentID = getNextUniqueID();
     char crashReportPath[KSCRS_MAX_PATH_LENGTH];

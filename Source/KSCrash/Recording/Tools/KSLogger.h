@@ -229,11 +229,11 @@ void i_kslog_logCBasic(const char* fmt, ...);
 
 
 #ifndef KSLogger_Level
-    #define KSLogger_Level KSLogger_Level_Error
+    #define KSLogger_Level KSLogger_Level_Trace
 #endif
 
 #ifndef KSLogger_LocalLevel
-    #define KSLogger_LocalLevel KSLogger_Level_None
+    #define KSLogger_LocalLevel KSLogger_Level_Trace
 #endif
 
 #define a_KSLOG_FULL(LEVEL, FMT, ...) \

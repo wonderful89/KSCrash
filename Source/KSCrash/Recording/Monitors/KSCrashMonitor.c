@@ -217,11 +217,13 @@ bool kscm_notifyFatalExceptionCaptured(bool isAsyncSafeEnvironment)
     g_requiresAsyncSafety |= isAsyncSafeEnvironment; // Don't let it be unset.
     if(g_handlingFatalException)
     {
+        /// 如果正在处理异常过程中又发生了crash，则标志下面的变量
         g_crashedDuringExceptionHandling = true;
     }
     g_handlingFatalException = true;
     if(g_crashedDuringExceptionHandling)
     {
+        /// 如果正在处理异常过程中又发生了crash，则卸载KSCrash监控
         KSLOG_INFO("Detected crash in the crash reporter. Uninstalling KSCrash.");
         kscm_setActiveMonitors(KSCrashMonitorTypeNone);
     }
