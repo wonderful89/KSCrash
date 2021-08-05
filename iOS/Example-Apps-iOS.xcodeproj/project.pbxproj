@@ -500,8 +500,14 @@
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Karl Stenerud";
 				TargetAttributes = {
+					CB8E579E17EBB1AF000C56D3 = {
+						DevelopmentTeam = RY737MD942;
+					};
 					CBC43E9C1C5ABA1F0083A11B = {
 						LastSwiftMigration = 0810;
+					};
+					CBF3CDDC17F574B5001AC307 = {
+						DevelopmentTeam = RY737MD942;
 					};
 				};
 			};
@@ -829,6 +835,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = RY737MD942;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simple-Example/Simple-Example-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -838,7 +845,7 @@
 				INFOPLIST_FILE = "Simple-Example/Simple-Example-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.stenerud.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.qianzhao.test2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -849,12 +856,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = RY737MD942;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simple-Example/Simple-Example-Prefix.pch";
 				INFOPLIST_FILE = "Simple-Example/Simple-Example-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.stenerud.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.qianzhao.test2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -919,6 +927,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = RY737MD942;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Advanced-Example/Advanced-Example-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -928,7 +937,7 @@
 				INFOPLIST_FILE = "Advanced-Example/Advanced-Example-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.stenerud.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.qianzhao.test2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

@@ -45,6 +45,9 @@ static volatile bool g_isEnabled = 0;
 static KSCrash_MonitorContext g_monitorContext;
 
 /** The exception handler that was in place before we installed ours. */
+/**
+ 保存之前异常处理器，在setEnabled的时候进行设置。如果发生 Fatal 异常，会设置关闭 KSCrash，然后里面将 g_previousUncaughtExceptionHandler 指针还原。
+ */
 static NSUncaughtExceptionHandler* g_previousUncaughtExceptionHandler;
 
 
@@ -58,6 +61,9 @@ static NSUncaughtExceptionHandler* g_previousUncaughtExceptionHandler;
  * @param exception The exception that was raised.
  */
 
+/**
+ currentSnapshotUserReported: 标识是否用户上报的。
+ */
 static void handleException(NSException* exception, BOOL currentSnapshotUserReported) {
     KSLOG_DEBUG(@"Trapped exception %@", exception);
     if(g_isEnabled)
@@ -101,8 +107,10 @@ static void handleException(NSException* exception, BOOL currentSnapshotUserRepo
 
         free(callstack);
         if (currentSnapshotUserReported) {
+            /// 如果是用户主动上报的，则进行恢复。不会发生退出。
             ksmc_resumeEnvironment(threads, numThreads);
         }
+        
         if (g_previousUncaughtExceptionHandler != NULL)
         {
             KSLOG_DEBUG(@"Calling original exception handler.");
@@ -131,9 +139,11 @@ static void setEnabled(bool isEnabled)
         if(isEnabled)
         {
             KSLOG_DEBUG(@"Backing up original handler.");
+            /// 备份原来的异常处理器。如果没有其他设置，通常是空的。
             g_previousUncaughtExceptionHandler = NSGetUncaughtExceptionHandler();
             
             KSLOG_DEBUG(@"Setting new handler.");
+            /// 设置一个新的异常处理
             NSSetUncaughtExceptionHandler(&handleUncaughtException);
             KSCrash.sharedInstance.uncaughtExceptionHandler = &handleUncaughtException;
             KSCrash.sharedInstance.currentSnapshotUserReportedExceptionHandler = &handleCurrentSnapshotUserReportedException;
@@ -141,6 +151,7 @@ static void setEnabled(bool isEnabled)
         else
         {
             KSLOG_DEBUG(@"Restoring original handler.");
+            /// 恢复之前的异常处理器
             NSSetUncaughtExceptionHandler(g_previousUncaughtExceptionHandler);
         }
     }

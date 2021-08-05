@@ -107,6 +107,9 @@ static int g_monitorsCount = sizeof(g_monitors) / sizeof(*g_monitors);
 
 static KSCrashMonitorType g_activeMonitors = KSCrashMonitorTypeNone;
 
+/** 标识当前处理的是否是 Fatal 的异常：
+ 由kscm_notifyFatalExceptionCaptured 函数设置。基本上所有类型都属于 Fatal
+*/
 static bool g_handlingFatalException = false;
 static bool g_crashedDuringExceptionHandling = false;
 static bool g_requiresAsyncSafety = false;
@@ -180,7 +183,12 @@ void kscm_setActiveMonitors(KSCrashMonitorType monitorTypes)
         monitorTypes &= KSCrashMonitorTypeAsyncSafe;
     }
 
+    bool isDebugBreakpoint = true;
+    if (isDebugBreakpoint) {
+        monitorTypes = monitorTypes | KSCrashMonitorTypeNSException;
+    }
     KSLOG_DEBUG("Changing active monitors from 0x%x tp 0x%x.", g_activeMonitors, monitorTypes);
+    
 
     KSCrashMonitorType activeMonitors = KSCrashMonitorTypeNone;
     for(int i = 0; i < g_monitorsCount; i++)

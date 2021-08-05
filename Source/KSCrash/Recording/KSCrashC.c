@@ -126,6 +126,7 @@ static void onCrash(struct KSCrash_MonitorContext* monitorContext)
 {
     if (monitorContext->currentSnapshotUserReported == false) {
         KSLOG_DEBUG("Updating application state to note crash.");
+        /// 如果不是用户主动上报的话，这里通知 App crash，更新 AppState
         kscrashstate_notifyAppCrash();
     }
     monitorContext->consoleLogPath = g_shouldAddConsoleLogToReport ? g_consoleLogPath : NULL;

@@ -13,6 +13,10 @@
 #import <KSCrash/KSCrashInstallationConsole.h>
 #import <KSCrash/KSCrash.h>
 
+// ============================================================================
+#pragma mark - API -
+// ============================================================================
+
 
 /* More advanced crash reporting example.
  *
@@ -41,8 +45,7 @@ didFinishLaunchingWithOptions:(__unused NSDictionary *) launchOptions
 #pragma mark - Basic Crash Handling -
 // ======================================================================
 
-- (void) installCrashHandler
-{
+- (void) installCrashHandler {
     // This can be useful when debugging on the simulator.
     // Normally, there's no way to see console messages in the simulator,
     // except when running in the debugger, which disables the crash handler.
@@ -52,9 +55,9 @@ didFinishLaunchingWithOptions:(__unused NSDictionary *) launchOptions
     
     // Create an installation (choose one)
 
-    self.crashInstallation = [self makeConsoleInstallation];
+//    self.crashInstallation = [self makeConsoleInstallation];
     //    self.crashInstallation = [self makeStandardInstallation];
-    //    self.crashInstallation = [self makeEmailInstallation];
+        self.crashInstallation = [self makeEmailInstallation];
     //    self.crashInstallation = [self makeHockeyInstallation];
     //    self.crashInstallation = [self makeQuincyInstallation];
     //    self.crashInstallation = [self makeVictoryInstallation];

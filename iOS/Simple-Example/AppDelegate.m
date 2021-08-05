@@ -20,11 +20,17 @@
  */
 
 
+static void handleUncaughtExceptionSelf(NSException* exception) {
+    NSLog(@"exception: %@", exception);
+}
+
+
 @implementation AppDelegate
 
 - (BOOL) application:(__unused UIApplication *) application
 didFinishLaunchingWithOptions:(__unused NSDictionary *) launchOptions
 {
+//    NSSetUncaughtExceptionHandler(&handleUncaughtExceptionSelf);
     [self installCrashHandler];
     
     return YES;
