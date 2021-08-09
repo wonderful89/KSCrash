@@ -23,29 +23,34 @@
     [super viewDidAppear:animated];
     
     // Send all outstanding reports, then show the main view controller.
-    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    [appDelegate.crashInstallation sendAllReportsWithCompletion:^(NSArray* reports, BOOL completed, NSError* error)
-     {
-         if(completed)
-         {
-             NSLog(@"Sent %lu reports", (unsigned long)[reports count]);
-         }
-         else
-         {
-             NSLog(@"Failed to send reports: %@", error);
-         }
-
-         // If you added an alert to the installation, it will interfere with replacing
-         // the root view controller. Delaying by 0.3 seconds mitigates this.
-         [self performSelector:@selector(showMainVC) withObject:nil afterDelay:0.3];
-     }];
+    
+    [self performSelector:@selector(showMainVC) withObject:nil afterDelay:0.3];
+    
+//    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+//    [appDelegate.crashInstallation sendAllReportsWithCompletion:^(NSArray* reports, BOOL completed, NSError* error)
+//     {
+//         if(completed)
+//         {
+//             NSLog(@"Sent %lu reports", (unsigned long)[reports count]);
+//         }
+//         else
+//         {
+//             NSLog(@"Failed to send reports: %@", error);
+//         }
+//
+//         // If you added an alert to the installation, it will interfere with replacing
+//         // the root view controller. Delaying by 0.3 seconds mitigates this.
+//         [self performSelector:@selector(showMainVC) withObject:nil afterDelay:0.3];
+//     }];
 
 }
 
 - (void) showMainVC
 {
     UIViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MainVC"];
-    [UIApplication sharedApplication].keyWindow.rootViewController = vc;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    vc.title = @"主页列表";
+    [UIApplication sharedApplication].keyWindow.rootViewController = nav;
 }
 
 @end

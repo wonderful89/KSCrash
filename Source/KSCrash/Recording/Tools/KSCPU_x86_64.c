@@ -85,6 +85,7 @@ void kscpu_getState(KSMachineContext* context)
     thread_t thread = context->thisThread;
     STRUCT_MCONTEXT_L* const machineContext = &context->machineContext;
     
+    /// 获取当前线程的相应状态填入到 machineContext 里面去。 __ss： 线程状态；__es异常状态。
     kscpu_i_fillState(thread, (thread_state_t)&machineContext->__ss, x86_THREAD_STATE64, x86_THREAD_STATE64_COUNT);
     kscpu_i_fillState(thread, (thread_state_t)&machineContext->__es, x86_EXCEPTION_STATE64, x86_EXCEPTION_STATE64_COUNT);
 }

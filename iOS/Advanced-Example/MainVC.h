@@ -5,6 +5,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainVC : UITableViewController
+@interface MainVC : UIViewController
 
 @end

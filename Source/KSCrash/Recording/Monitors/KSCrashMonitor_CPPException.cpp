@@ -114,15 +114,19 @@ static void CPPExceptionTerminate(void)
     ksmc_suspendEnvironment(&threads, &numThreads);
     KSLOG_DEBUG("Trapped c++ exception");
     const char* name = NULL;
+    /// __cxxabiv1 是命名空间，调用获取当前异常类型。比如 【NSException】
     std::type_info* tinfo = __cxxabiv1::__cxa_current_exception_type();
     if(tinfo != NULL)
     {
         name = tinfo->name();
     }
     
-    if(name == NULL || strcmp(name, "NSException") != 0)
-    {
+    if(name == NULL || strcmp(name, "NSException") != 0) {
+        /// 不是 NSException类型的处理
+        
+        /// 通知是重大的异常，并且不是异步安全的环境
         kscm_notifyFatalExceptionCaptured(false);
+        /// 重置`g_monitorContext`空间， 目的重新保存上下文
         KSCrash_MonitorContext* crashContext = &g_monitorContext;
         memset(crashContext, 0, sizeof(*crashContext));
 
@@ -140,13 +144,15 @@ static void CPPExceptionTerminate(void)
         {
             strncpy(descriptionBuff, exc.what(), sizeof(descriptionBuff));
         }
+        /// snprintf(char *str, size_t size, const char *format, ...)
+        /// 可变参数安全版本（n）, 输出到str中
 #define CATCH_VALUE(TYPE, PRINTFTYPE) \
 catch(TYPE value)\
 { \
     snprintf(descriptionBuff, sizeof(descriptionBuff), "%" #PRINTFTYPE, value); \
 }
-        CATCH_VALUE(char,                 d)
-        CATCH_VALUE(short,                d)
+        CATCH_VALUE(char,                 d) /// catch(char value) {snprintf(descriptionBuff, sizeof(descriptionBuff), "%d", value);}
+        CATCH_VALUE(short,                d) /// catch(short value) {snprintf(descriptionBuff, sizeof(descriptionBuff), "%d", value);}
         CATCH_VALUE(int,                  d)
         CATCH_VALUE(long,                ld)
         CATCH_VALUE(long long,          lld)
@@ -159,35 +165,57 @@ catch(TYPE value)\
         CATCH_VALUE(double,               f)
         CATCH_VALUE(long double,         Lf)
         CATCH_VALUE(char*,                s)
-        catch(...)
+        catch(...) /// 小括号里的...表示任何类型的异常，而不特指某一特定类型的异常。[from](https://bbs.csdn.net/topics/368992)
         {
             description = NULL;
         }
         g_captureNextStackTrace = g_isEnabled;
 
         // TODO: Should this be done here? Maybe better in the exception handler?
+        /// 在栈上创建一个新的 `KSMachineContext` 存储对象，表示机器上下文
+        /**
+         typedef struct KSMachineContext
+         {
+             thread_t thisThread;
+             thread_t allThreads[100];
+             int threadCount;
+             bool isCrashedContext;
+             bool isCurrentThread;
+             bool isStackOverflow;
+             bool isSignalContext;
+             STRUCT_MCONTEXT_L machineContext;
+         } KSMachineContext;
+         */
         KSMC_NEW_CONTEXT(machineContext);
+        /// 向【machineContext】中存入信息，并标记是crash上下文
         ksmc_getContextForThread(ksthread_self(), machineContext, true);
 
         KSLOG_DEBUG("Filling out context.");
+        /// 保存全局crashContext
         crashContext->crashType = KSCrashMonitorTypeCPPException;
+        /// 设置事件的唯一标识符
         crashContext->eventID = g_eventID;
+        /// 只有Mach和Signal是有效的。其他的设置没有效
         crashContext->registersAreValid = false;
+        /// 设置栈的光标 stackCursor
         crashContext->stackCursor = &g_stackCursor;
         crashContext->CPPException.name = name;
         crashContext->exceptionName = name;
         crashContext->crashReason = description;
+        /// 保存machineContext
         crashContext->offendingMachineContext = machineContext;
 
+        /// 表示ks的crash monitor中处理异常。
         kscm_handleException(crashContext);
     }
-    else
-    {
+    else {
+        /// 是 NSException类型的处理：让给NSException handler处理器进行处理。让渡方法是直接调用原始的处理器，就会向上层传递。
         KSLOG_DEBUG("Detected NSException. Letting the current NSException handler deal with it.");
     }
     ksmc_resumeEnvironment(threads, numThreads);
 
     KSLOG_DEBUG("Calling original terminate handler.");
+    /// 不调用也会发生异常
     g_originalTerminateHandler();
 }
 
@@ -216,6 +244,7 @@ static void setEnabled(bool isEnabled)
             initialize();
 
             ksid_generate(g_eventID);
+            /// 设置新的处理器，返回原始的处理器。保存之前的用于恢复或者直接调用。
             g_originalTerminateHandler = std::set_terminate(CPPExceptionTerminate);
         }
         else

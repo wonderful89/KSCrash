@@ -61,6 +61,7 @@ typedef struct KSCrash_MonitorContext
     bool crashedDuringCrashHandling;
     
     /** If true, the registers contain valid information about the crash. */
+    /// 只有Mach和Signal是有效的。其他的设置没有效
     bool registersAreValid;
     
     /** True if the crash system has detected a stack overflow. */

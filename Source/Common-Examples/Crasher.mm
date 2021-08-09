@@ -220,6 +220,7 @@ static volatile int counter = 0; // To prevent recursion optimization
     memset(ptr, 0xa1, 500);
 }
 
+/// 用lock创建死锁
 - (void) deadlock
 {
     [self.lock lock];
@@ -230,12 +231,14 @@ static volatile int counter = 0; // To prevent recursion optimization
                    });
 }
 
+/// pthreadAPI发生异常-以为或者的名字放在第二个参数。但是没有空间。
 - (void) pthreadAPICrash
 {
     // http://landonf.bikemonkey.org/code/crashreporting
     pthread_getname_np(pthread_self(), (char*)0x1, 1);
 }
 
+/// 用户自定义的crash
 - (void) userDefinedCrash
 {
     NSString* name = @"Script Error";
@@ -258,6 +261,8 @@ static volatile int counter = 0; // To prevent recursion optimization
 }
 
 
+
+/// 抛出c++异常
 - (void) throwUncaughtCPPException
 {
     MyCPPClass instance;

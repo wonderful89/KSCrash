@@ -50,6 +50,7 @@ static int g_reservedThreadsMaxIndex = sizeof(g_reservedThreads) / sizeof(g_rese
 static int g_reservedThreadsCount = 0;
 
 
+/// 判断crash是否是栈溢出的原因：
 static inline bool isStackOverflow(const KSMachineContext* const context)
 {
     KSStackCursor stackCursor;
@@ -120,7 +121,9 @@ bool ksmc_getContextForThread(KSThread thread, KSMachineContext* destinationCont
     }
     if(ksmc_isCrashedContext(destinationContext))
     {
+        /// 获取isStackOverflow状态
         destinationContext->isStackOverflow = isStackOverflow(destinationContext);
+        /// 保存所有线程
         getThreadList(destinationContext);
     }
     KSLOG_TRACE("Context retrieved.");
@@ -274,6 +277,7 @@ static inline bool isSignalContext(const KSMachineContext* const context)
     return context->isSignalContext;
 }
 
+/// 有CPU状态的条件是：信号上下文，或者不是当前线程。
 bool ksmc_canHaveCPUState(const KSMachineContext* const context)
 {
     return !isContextForCurrentThread(context) || isSignalContext(context);

@@ -40,6 +40,7 @@
  *
  * @return true if we're being traced.
  */
+/// 使用系统调用获取procInfo，然后判断其中的P_TRACED字段
 bool ksdebug_isBeingTraced(void)
 {
     struct kinfo_proc procInfo;
@@ -52,5 +53,6 @@ bool ksdebug_isBeingTraced(void)
         return false;
     }
     
+    // P_TRACED 标记表示是否是调试模式
     return (procInfo.kp_proc.p_flag & P_TRACED) != 0;
 }

@@ -166,6 +166,7 @@ void kscm_setActiveMonitors(KSCrashMonitorType monitorTypes)
 {
     if(ksdebug_isBeingTraced() && (monitorTypes & KSCrashMonitorTypeDebuggerUnsafe))
     {
+        /// 全局只输出警告一次
         static bool hasWarned = false;
         if(!hasWarned)
         {
@@ -185,7 +186,8 @@ void kscm_setActiveMonitors(KSCrashMonitorType monitorTypes)
 
     bool isDebugBreakpoint = true;
     if (isDebugBreakpoint) {
-        monitorTypes = monitorTypes | KSCrashMonitorTypeNSException;
+        //  | KSCrashMonitorTypeMachException 配置上去会发生crash
+        monitorTypes = monitorTypes | KSCrashMonitorTypeNSException | KSCrashMonitorTypeCPPException ;
     }
     KSLOG_DEBUG("Changing active monitors from 0x%x tp 0x%x.", g_activeMonitors, monitorTypes);
     
@@ -238,9 +240,13 @@ bool kscm_notifyFatalExceptionCaptured(bool isAsyncSafeEnvironment)
     return g_crashedDuringExceptionHandling;
 }
 
+/// 表示ks的crash monitor中处理异常。
 void kscm_handleException(struct KSCrash_MonitorContext* context)
 {
+    /// 设置是否要求线程安全
     context->requiresAsyncSafety = g_requiresAsyncSafety;
+    
+    /// 设置是否是处理crash的过程中发生的crash，到context中
     if(g_crashedDuringExceptionHandling)
     {
         context->crashedDuringCrashHandling = true;
@@ -250,10 +256,13 @@ void kscm_handleException(struct KSCrash_MonitorContext* context)
         Monitor* monitor = &g_monitors[i];
         if(isMonitorEnabled(monitor))
         {
+            /// 遍历，将context添加到有能力的 monitor中
+            /// 也就是调用 某些Monitor中的 [addContextualInfoToEvent]函数
             addContextualInfoToEvent(monitor, context);
         }
     }
 
+    /// 这里调用的是KSCrash.c 中的 【onCrash】函数
     g_onExceptionEvent(context);
 
     if (context->currentSnapshotUserReported) {
