@@ -100,6 +100,7 @@ int g_crasher_denominator = 0;
     *g_crasher_null_ptr = 1;
 }
 
+/// 对象被损坏-
 - (void) useCorruptObject
 {
     // From http://landonf.bikemonkey.org/2011/09/14
@@ -135,6 +136,7 @@ int g_crasher_denominator = 0;
 
 static volatile int counter = 0; // To prevent recursion optimization
 
+/// 引起栈溢出；不断累加的方式
 - (void) causeStackOverflow
 {
     [self causeStackOverflow];
@@ -146,6 +148,7 @@ static volatile int counter = 0; // To prevent recursion optimization
     abort();
 }
 
+/// 除0异常
 - (void) doDiv0
 {
     int value = 10;
@@ -153,6 +156,7 @@ static volatile int counter = 0; // To prevent recursion optimization
     NSLog(@"%d", value);
 }
 
+/// 非法指令异常
 - (void) doIllegalInstruction
 {
     unsigned int data[] = {0x11111111, 0x11111111};
@@ -160,6 +164,7 @@ static volatile int counter = 0; // To prevent recursion optimization
     funcptr();
 }
 
+/// 访问释放的对象-野指针
 - (void) accessDeallocatedObject
 {
 //    NSArray* array = [[NSArray alloc] initWithObjects:@"", nil];
@@ -178,6 +183,7 @@ static volatile int counter = 0; // To prevent recursion optimization
                    });
 }
 
+/// 访问释放的Proxy-野指针？
 - (void) accessDeallocatedPtrProxy
 {
     RefHolder* ref = [RefHolder new];
@@ -189,6 +195,7 @@ static volatile int counter = 0; // To prevent recursion optimization
                    });
 }
 
+/// ？？
 - (void) zombieNSException
 {
     @try
@@ -209,6 +216,7 @@ static volatile int counter = 0; // To prevent recursion optimization
     }
 }
 
+/// memset 操作非法写
 - (void) corruptMemory
 {
     size_t stringsize = sizeof(uintptr_t) * 2 + 2;
