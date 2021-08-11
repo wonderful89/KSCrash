@@ -215,7 +215,7 @@ catch(TYPE value)\
     ksmc_resumeEnvironment(threads, numThreads);
 
     KSLOG_DEBUG("Calling original terminate handler.");
-    /// 不调用也会发生异常
+    /// 不调用也会发生异常: 区别在于如果调用更多话，会按步骤 NSException 处理异常；否则不按照顺序，就像没有 crash 异常处理器，会直接发送信号 signal 6
     g_originalTerminateHandler();
 }
 

@@ -1750,8 +1750,8 @@ void kscrashreport_writeStandardReport(const KSCrash_MonitorContext* const monit
         writeBinaryImages(writer, KSCrashField_BinaryImages);
         ksfu_flushBufferedWriter(&bufferedWriter);
 
-//        writeProcessState(writer, KSCrashField_ProcessState, monitorContext);
-//        ksfu_flushBufferedWriter(&bufferedWriter);
+        writeProcessState(writer, KSCrashField_ProcessState, monitorContext);
+        ksfu_flushBufferedWriter(&bufferedWriter);
 
         writeSystemInfo(writer, KSCrashField_System, monitorContext);
         ksfu_flushBufferedWriter(&bufferedWriter);

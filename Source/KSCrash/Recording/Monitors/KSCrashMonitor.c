@@ -187,7 +187,8 @@ void kscm_setActiveMonitors(KSCrashMonitorType monitorTypes)
     bool isDebugBreakpoint = true;
     if (isDebugBreakpoint) {
         //  | KSCrashMonitorTypeMachException 配置上去会发生crash
-        monitorTypes = monitorTypes | KSCrashMonitorTypeNSException | KSCrashMonitorTypeCPPException ;
+//        monitorTypes = monitorTypes | KSCrashMonitorTypeNSException | KSCrashMonitorTypeCPPException | KSCrashMonitorTypeMachException;
+//        monitorTypes = KSCrashMonitorTypeMachException;
     }
     KSLOG_DEBUG("Changing active monitors from 0x%x tp 0x%x.", g_activeMonitors, monitorTypes);
     
@@ -228,6 +229,7 @@ bool kscm_notifyFatalExceptionCaptured(bool isAsyncSafeEnvironment)
     if(g_handlingFatalException)
     {
         /// 如果正在处理异常过程中又发生了crash，则标志下面的变量
+        /// 也就是之前已经进来过一次了。
         g_crashedDuringExceptionHandling = true;
     }
     g_handlingFatalException = true;

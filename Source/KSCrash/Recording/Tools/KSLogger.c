@@ -39,6 +39,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#include<time.h>
+#include<sys/time.h>
+
 
 // Compiler hints for "if" statements
 #define likely_if(x) if(__builtin_expect(x,1))
@@ -273,7 +276,16 @@ void i_kslog_logC(const char* const level,
                   const char* const function,
                   const char* const fmt, ...)
 {
-    writeFmtToLog("%s: %s (%u): %s: ", level, lastPathEntry(file), line, function);
+    struct timeval tv;
+    gettimeofday(&tv,NULL);//获取1970-1-1到现在的时间结果保存到tv中
+    __darwin_time_t sec = tv.tv_sec;
+//    __darwin_time_t min = tv.tv_sec/60;
+    struct tm cur_tm;//保存转换后的时间结果
+    localtime_r((time_t*)&sec,&cur_tm);
+    char cur_time[20];
+    snprintf(cur_time,20,"%d-%02d-%02d %02d:%02d:%02d",cur_tm.tm_year+1900,cur_tm.tm_mon+1,cur_tm.tm_mday,cur_tm.tm_hour,cur_tm.tm_min,cur_tm.tm_sec);
+    
+    writeFmtToLog("%s %s: %s (%u): %s: ", cur_time, level, lastPathEntry(file), line, function);
     va_list args;
     va_start(args,fmt);
     writeFmtArgsToLog(fmt, args);

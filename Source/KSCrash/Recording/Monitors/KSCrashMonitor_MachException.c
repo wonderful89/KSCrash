@@ -280,6 +280,9 @@ static void* handleExceptions(void* const userData)
         KSLOG_DEBUG("This is the secondary thread. Suspending.");
         thread_suspend((thread_t)ksthread_self());
         eventID = g_secondaryEventID;
+        KSLOG_DEBUG("[debug] 挂起之后还能执行吗 --> 不能，需要下面进行激活");
+    } else {
+        KSLOG_DEBUG("[debug] This is the primary thread. 继续往下执行.");
     }
     
     /// 循环读取注册好的异常端口信息
@@ -327,7 +330,11 @@ static void* handleExceptions(void* const userData)
         {
             KSLOG_DEBUG("This is the primary exception thread. Activating secondary thread.");
 // TODO: This was put here to avoid a freeze. Does secondary thread ever fire?
-            restoreExceptionPorts();
+            /// 这里恢复第二个Mach处理线程, 并恢复原始的异常端口
+            bool isDebug = false;
+            if (isDebug) {
+                restoreExceptionPorts();
+            }
             if(thread_resume(g_secondaryMachThread) != KERN_SUCCESS)
             {
                 KSLOG_DEBUG("Could not activate secondary thread. Restoring original exception ports.");
@@ -375,6 +382,7 @@ static void* handleExceptions(void* const userData)
             // it generates KERN_PROTECTION_FAILURE. Correct for this.
             crashContext->mach.code = KERN_INVALID_ADDRESS;
         }
+        /// 将mach异常的异常码转换为 signal 的异常码
         crashContext->signal.signum = signalForMachException(crashContext->mach.type, crashContext->mach.code);
         crashContext->stackCursor = &g_stackCursor;
 
@@ -388,7 +396,7 @@ static void* handleExceptions(void* const userData)
 
     KSLOG_DEBUG("Replying to mach exception message.");
     // Send a reply saying "I didn't handle this exception".
-    /// 响应mach异常-发送一个消息：我没有处理这个异常
+    /// 响应mach异常-发送一个回复消息：我没有处理这个异常
     replyMessage.header = exceptionMessage.header;
     replyMessage.NDR = exceptionMessage.NDR;
     replyMessage.returnCode = KERN_FAILURE;
@@ -504,7 +512,7 @@ static bool installExceptionHandler()
         }
 
         KSLOG_DEBUG("Adding send rights to port.");
-        /// 为异常处理端口申请权限：MACH_MSG_TYPE_MAKE_SEND
+        /// 为异常处理端口申请权限：MACH_MSG_TYPE_MAKE_SEND(接收多次的权限)
         kr = mach_port_insert_right(thisTask,
                                     g_exceptionPort,
                                     g_exceptionPort,

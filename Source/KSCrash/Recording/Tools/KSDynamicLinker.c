@@ -341,7 +341,7 @@ static void getCrashInfo(const struct mach_header* header, KSBinaryImage* buffer
         return;
     }
 
-    KSLOG_TRACE("Found crash info section in binary: %s", buffer->name);
+//    KSLOG_TRACE("Found crash info section in binary: %s", buffer->name);
     const unsigned int minimalSize = offsetof(crash_info_t, reserved); // Include message and message2
     if(size < minimalSize)
     {
@@ -360,7 +360,7 @@ static void getCrashInfo(const struct mach_header* header, KSBinaryImage* buffer
     }
     if(crashInfo->message == NULL && crashInfo->message2 == NULL)
     {
-        KSLOG_TRACE("Skipped reading crash info: both messages are null");
+//        KSLOG_TRACE("Skipped reading crash info: both messages are null");
         return;
     }
 
