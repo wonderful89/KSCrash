@@ -36,6 +36,7 @@
 - (BOOL) application:(__unused UIApplication *) application
 didFinishLaunchingWithOptions:(__unused NSDictionary *) launchOptions
 {
+    NSLog(@"tempDir = %@", NSTemporaryDirectory());
     [self installCrashHandler];
     
     return YES;

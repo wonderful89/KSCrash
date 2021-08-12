@@ -48,7 +48,7 @@ bool kscpu_i_fillState(const thread_t thread,
                        const thread_state_flavor_t flavor,
                        const mach_msg_type_number_t stateCount)
 {
-    KSLOG_TRACE("Filling thread state with flavor %x.", flavor);
+//    KSLOG_TRACE("Filling thread state with flavor %x.", flavor);
     mach_msg_type_number_t stateCountBuff = stateCount;
     kern_return_t kr;
     

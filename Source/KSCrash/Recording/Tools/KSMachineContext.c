@@ -109,7 +109,7 @@ KSThread ksmc_getThreadFromContext(const KSMachineContext* const context)
 
 bool ksmc_getContextForThread(KSThread thread, KSMachineContext* destinationContext, bool isCrashedContext)
 {
-    KSLOG_DEBUG("Fill thread 0x%x context into %p. is crashed = %d", thread, destinationContext, isCrashedContext);
+//    KSLOG_DEBUG("Fill thread 0x%x context into %p. is crashed = %d", thread, destinationContext, isCrashedContext);
     memset(destinationContext, 0, sizeof(*destinationContext));
     destinationContext->thisThread = (thread_t)thread;
     destinationContext->isCurrentThread = thread == ksthread_self();
@@ -126,7 +126,7 @@ bool ksmc_getContextForThread(KSThread thread, KSMachineContext* destinationCont
         /// 保存所有线程
         getThreadList(destinationContext);
     }
-    KSLOG_TRACE("Context retrieved.");
+//    KSLOG_TRACE("Context retrieved.");
     return true;
 }
 

@@ -430,6 +430,7 @@ static void uninstallExceptionHandler()
     
     thread_t thread_self = (thread_t)ksthread_self();
     
+    /// 取消第一个异常处理线程
     if(g_primaryPThread != 0 && g_primaryMachThread != thread_self)
     {
         KSLOG_DEBUG("Canceling primary exception thread.");
@@ -444,6 +445,8 @@ static void uninstallExceptionHandler()
         g_primaryMachThread = 0;
         g_primaryPThread = 0;
     }
+    
+    /// 取消第二个异常处理线程
     if(g_secondaryPThread != 0 && g_secondaryMachThread != thread_self)
     {
         KSLOG_DEBUG("Canceling secondary exception thread.");

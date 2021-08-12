@@ -1177,7 +1177,7 @@ static void writeThread(const KSCrashReportWriter* const writer,
 {
     bool isCrashedThread = ksmc_isCrashedContext(machineContext);
     KSThread thread = ksmc_getThreadFromContext(machineContext);
-    KSLOG_DEBUG("Writing thread %x (index %d). is crashed: %d", thread, threadIndex, isCrashedThread);
+//    KSLOG_DEBUG("Writing thread %x (index %d). is crashed: %d", thread, threadIndex, isCrashedThread);
 
     KSStackCursor stackCursor;
     bool hasBacktrace = getStackCursor(crash, machineContext, &stackCursor);
