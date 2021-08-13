@@ -205,6 +205,8 @@ catch(TYPE value)\
         /// 保存machineContext
         crashContext->offendingMachineContext = machineContext;
 
+        KSLOG_DEBUG("检测不是 NSException类型. 自己处理");
+        
         /// 表示ks的crash monitor中处理异常。
         kscm_handleException(crashContext);
     }

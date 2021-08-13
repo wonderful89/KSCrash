@@ -63,6 +63,7 @@
 		CBF3CE5C17F57794001AC307 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB62400417EBB2D2006471F1 /* MessageUI.framework */; };
 		CBF3CE5D17F57798001AC307 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB62400617EBB2D7006471F1 /* SystemConfiguration.framework */; };
 		CBF3CEA717F67EA9001AC307 /* CrashTesterCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF3CEA617F67EA9001AC307 /* CrashTesterCommands.m */; };
+		E9809D6D26C6560F00B1002F /* Crasher.mm in Sources */ = {isa = PBXBuildFile; fileRef = CBF3CE5817F5777A001AC307 /* Crasher.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -630,6 +631,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9809D6D26C6560F00B1002F /* Crasher.mm in Sources */,
 				CBF3CE1117F5754B001AC307 /* LoaderVC.m in Sources */,
 				CBF3CDEC17F574B5001AC307 /* AppDelegate.m in Sources */,
 				CBF3CE1217F5754B001AC307 /* MainVC.m in Sources */,

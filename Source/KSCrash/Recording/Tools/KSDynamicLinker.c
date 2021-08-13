@@ -311,6 +311,7 @@ bool ksdl_dladdr(const uintptr_t address, Dl_info* const info)
     return true;
 }
 
+/// 这里是根据特征，判断是否是 crash 的消息。特征是 str 中 maxReadableBytes长度范围，存在值为0；？？
 static bool isValidCrashInfoMessage(const char* str)
 {
     if(str == NULL)

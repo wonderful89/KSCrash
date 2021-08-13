@@ -8,6 +8,7 @@
 #import <KSCrash/KSCrash.h>
 #import "AppDelegate.h"
 #import <KSCrash/KSCrashInstallation.h>
+#import "Crasher.h"
 
 /**
  * Some sensitive info that should not be printed out at any time.
@@ -31,12 +32,14 @@
 @end
 
 
+typedef void(^MyBlock)(void);
 
 @interface MainVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property(nonatomic, readwrite, strong) SensitiveInfo* info;
 @property(nonatomic, readwrite, strong) UITableView* tableView;
 @property(nonatomic, readwrite, strong) NSArray* dateList;
+@property(nonatomic, readwrite, strong) NSDictionary<NSString*, MyBlock>* dicItems;
 
 @end
 
@@ -93,53 +96,43 @@
                       @"Exception-主线程死锁",//7
                       @"Exception-Zombie内存？",//8
                       @"Other"];
+    self.dicItems = @{
+        @"OC数组越界": ^{ NSLog(@"item 100 = %@",self.dateList[100]); },
+        @"Exception-没有selector": ^{ [[Crasher new] throwUncaughtNSException];},
+        @"Exception- C++坏地址": ^{[[Crasher new] dereferenceBadPointer];  },
+        @"Exception- C++空地址": ^{[[Crasher new] dereferenceNullPointer];  },
+        @"Report Exception-User": ^{ [self userReportNSException]; },
+        @"除0错误": ^{ [[Crasher new] doDiv0];; },
+        @"OC-访问释放的对象": ^{ [[Crasher new] accessDeallocatedObject]; },
+        @"OC-访问释放的Proxy对象": ^{ [[Crasher new] accessDeallocatedPtrProxy]; },
+        @"内存损坏-": ^{ [[Crasher new] corruptMemory]; },
+        @"死锁-": ^{ [[Crasher new] deadlock]; },
+        @"主动抛出c++ 异常-": ^{ [[Crasher new] throwUncaughtCPPException]; },
+        @"线程 Api 异常": ^{ [[Crasher new] pthreadAPICrash]; },
+        @"zombieNSException 异常": ^{ [[Crasher new] zombieNSException]; },
+        @"abort": ^{ [[Crasher new] doAbort]; },
+    };
+}
+
+- (void ) userReportNSException{
+    NSException* ex = [NSException exceptionWithName:@"testing exception name" reason:@"testing exception reason" userInfo:@{@"testing exception key":@"testing exception value"}];
+    [KSCrash sharedInstance].currentSnapshotUserReportedExceptionHandler(ex);
+    [KSCrash sharedInstance].monitoring = KSCrashMonitorTypeProductionSafe;
+    [self sendAllExceptions];
 }
 
 # pragma tableview delegate
 
-- (NSURL *) _getObj{
-    NSURL *url = [NSURL URLWithString:@"111"];
-    return url;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSInteger index = indexPath.item;
     NSLog(@"index = %ld", index);
-    if (index == 0) {
-        NSException* ex = [NSException exceptionWithName:@"testing exception name" reason:@"testing exception reason" userInfo:@{@"testing exception key":@"testing exception value"}];
-        [KSCrash sharedInstance].currentSnapshotUserReportedExceptionHandler(ex);
-        [KSCrash sharedInstance].monitoring = KSCrashMonitorTypeProductionSafe;
-        [self sendAllExceptions];
-    } else if (index == 1) {
-        char* invalid = (char*)-1;
-        *invalid = 1;
-    } else if (index == 2) {
-        NSLog(@"item 100 = %@",self.dateList[100]);
-    } else if (index == 3) {
-        NSURL *aa;
-        @autoreleasepool {
-            NSURL *url = [NSURL URLWithString:@"111"];
-            aa = url;
-        }
-        
-        NSLog(@"aa.len = %@",aa.host);
-    } else if (index == 4) {
-        NSString *aa = @"111";
-        UIViewController *vc = (UIViewController *)aa;
-        NSLog(@"aa.len = %@", vc.title);
-    } else if (index == 5) { // Mach
-        NSLog(@"TODO:");
-    } else if (index == 6) { // Signal
-        NSLog(@"TODO:");
-    } else if (index == 7) { // 主线程死锁
-        NSLog(@"TODO:");
-    } else if (index == 8) { // Zombie内存
-        NSLog(@"TODO:");
-    }
+    MyBlock block = self.dicItems.allValues[index];
+    block();
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.dateList count];
+//    return [self.dateList count];
+    return self.dicItems.allKeys.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -153,7 +146,7 @@ static NSString* reuseIndentifier = @"tableViewCell-1";
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIndentifier];
     }
     NSInteger index = indexPath.item;
-    cell.textLabel.text = self.dateList[index];
+    cell.textLabel.text = self.dicItems.allKeys[index];
     return cell;
 }
 

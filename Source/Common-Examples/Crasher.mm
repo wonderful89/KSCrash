@@ -187,7 +187,8 @@ static volatile int counter = 0; // To prevent recursion optimization
 - (void) accessDeallocatedPtrProxy
 {
     RefHolder* ref = [RefHolder new];
-    ref.ref = [MyProxy alloc];
+    /// NSProxy 对象第一次点击就 crash 了，但是NSObject第二次点击才会 crash。
+    ref.ref = [MyProxy alloc]; //[NSObject new]; //
 
     dispatch_async(dispatch_get_main_queue(), ^
                    {
