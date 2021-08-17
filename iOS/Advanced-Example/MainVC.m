@@ -110,6 +110,7 @@ typedef void(^MyBlock)(void);
         @"主动抛出c++ 异常-": ^{ [[Crasher new] throwUncaughtCPPException]; },
         @"线程 Api 异常": ^{ [[Crasher new] pthreadAPICrash]; },
         @"zombieNSException 异常": ^{ [[Crasher new] zombieNSException]; },
+        @"栈溢出 causeStackOverflow": ^{ [[Crasher new] causeStackOverflow]; },
         @"abort": ^{ [[Crasher new] doAbort]; },
     };
 }

@@ -1777,6 +1777,8 @@ void kscrashreport_writeStandardReport(const KSCrash_MonitorContext* const monit
         {
             writer->beginObject(writer, KSCrashField_User);
         }
+        
+        /// 用户设置的写回调在这里处理
         if(g_userSectionWriteCallback != NULL)
         {
             ksfu_flushBufferedWriter(&bufferedWriter);
