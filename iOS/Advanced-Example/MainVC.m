@@ -98,18 +98,39 @@ typedef void(^MyBlock)(void);
                       @"Other"];
     self.dicItems = @{
         @"OC数组越界": ^{ NSLog(@"item 100 = %@",self.dateList[100]); },
+        @"OC数组越界-try": ^{ @try{
+            NSLog(@"item 100 = %@",self.dateList[100]);
+        } @catch(NSException *e){
+            NSLog(@"exception = %@", e);
+        } },
         @"Exception-没有selector": ^{ [[Crasher new] throwUncaughtNSException];},
+        @"Exception-没有selector-try": ^{@try {
+            [[Crasher new] throwUncaughtNSException];
+        } @catch(NSException *exception){
+            NSLog(@"exception = %@", exception);
+        } },
         @"Exception- C++坏地址": ^{[[Crasher new] dereferenceBadPointer];  },
         @"Exception- C++空地址": ^{[[Crasher new] dereferenceNullPointer];  },
         @"Report Exception-User": ^{ [self userReportNSException]; },
         @"除0错误": ^{ [[Crasher new] doDiv0];; },
+        @"除0错误-try": ^{ @try{
+            [[Crasher new] doDiv0];
+        } @catch(NSException *e){
+            NSLog(@"exception = %@", e);
+        } },
         @"OC-访问释放的对象": ^{ [[Crasher new] accessDeallocatedObject]; },
+        @"OC-访问释放的对象-try": ^{ @try{
+            [[Crasher new] accessDeallocatedObject];
+        } @catch(NSException *e){
+            NSLog(@"exception = %@", e);
+        } },
         @"OC-访问释放的Proxy对象": ^{ [[Crasher new] accessDeallocatedPtrProxy]; },
         @"内存损坏-": ^{ [[Crasher new] corruptMemory]; },
         @"死锁-": ^{ [[Crasher new] deadlock]; },
         @"主动抛出c++ 异常-": ^{ [[Crasher new] throwUncaughtCPPException]; },
         @"线程 Api 异常": ^{ [[Crasher new] pthreadAPICrash]; },
         @"zombieNSException 异常": ^{ [[Crasher new] zombieNSException]; },
+        @"zombieNSURL 异常": ^{ [[Crasher new] zombieNSURL]; },
         @"栈溢出 causeStackOverflow": ^{ [[Crasher new] causeStackOverflow]; },
         @"abort": ^{ [[Crasher new] doAbort]; },
     };

@@ -50,3 +50,9 @@ KSCrashMonitorAPI* kscm_nsexception_getAPI(void);
 #endif
 
 #endif // HDR_KSCrashMonitor_NSException_h
+
+
+
+
+
+

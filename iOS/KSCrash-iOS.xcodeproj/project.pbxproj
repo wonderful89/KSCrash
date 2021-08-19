@@ -240,6 +240,13 @@
 		6E889AE634130C8F37C2875A /* KSgetsect.c in Sources */ = {isa = PBXBuildFile; fileRef = 6E8894847F02F7B05F31FE4F /* KSgetsect.c */; };
 		6E889B651331FD97EEB0C42F /* KSgetsect.c in Sources */ = {isa = PBXBuildFile; fileRef = 6E8894847F02F7B05F31FE4F /* KSgetsect.c */; };
 		6E889F76F8DCC4749067A458 /* KSCxaThrowSwapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 6E889A12BAE413442C0DA527 /* KSCxaThrowSwapper.c */; };
+		781BC62B26CD57F90086EC4B /* NSZombieBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 781BC62926CD57F90086EC4B /* NSZombieBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		781BC62C26CD57F90086EC4B /* NSZombieBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 781BC62926CD57F90086EC4B /* NSZombieBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		781BC62D26CD57F90086EC4B /* NSZombieBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 781BC62926CD57F90086EC4B /* NSZombieBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		781BC62E26CD57F90086EC4B /* NSZombieBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 781BC62A26CD57F90086EC4B /* NSZombieBase.m */; };
+		781BC62F26CD57F90086EC4B /* NSZombieBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 781BC62A26CD57F90086EC4B /* NSZombieBase.m */; };
+		781BC63026CD57F90086EC4B /* NSZombieBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 781BC62A26CD57F90086EC4B /* NSZombieBase.m */; };
+		781BC63126CD57F90086EC4B /* NSZombieBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 781BC62A26CD57F90086EC4B /* NSZombieBase.m */; };
 		97BB896B26337E2B008ED481 /* Platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 97BB895A26337E2B008ED481 /* Platform.h */; };
 		97BB896C26337E2B008ED481 /* Demangler.h in Headers */ = {isa = PBXBuildFile; fileRef = 97BB895B26337E2B008ED481 /* Demangler.h */; };
 		97BB896D26337E2B008ED481 /* StandardTypesMangling.def in Resources */ = {isa = PBXBuildFile; fileRef = 97BB895C26337E2B008ED481 /* StandardTypesMangling.def */; };
@@ -894,6 +901,8 @@
 		6E889A12BAE413442C0DA527 /* KSCxaThrowSwapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = KSCxaThrowSwapper.c; path = ../../Source/KSCrash/Recording/Tools/KSCxaThrowSwapper.c; sourceTree = "<group>"; };
 		6E889A8EEFCE259D2B1D7CA7 /* KSCxaThrowSwapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSCxaThrowSwapper.h; path = ../../Source/KSCrash/Recording/Tools/KSCxaThrowSwapper.h; sourceTree = "<group>"; };
 		6E889C3CA8DE0FCD76ABD019 /* KSgetsect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSgetsect.h; path = ../../Source/KSCrash/Recording/Tools/KSgetsect.h; sourceTree = "<group>"; };
+		781BC62926CD57F90086EC4B /* NSZombieBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSZombieBase.h; sourceTree = "<group>"; };
+		781BC62A26CD57F90086EC4B /* NSZombieBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSZombieBase.m; sourceTree = "<group>"; };
 		97BB895A26337E2B008ED481 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		97BB895B26337E2B008ED481 /* Demangler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demangler.h; sourceTree = "<group>"; };
 		97BB895C26337E2B008ED481 /* StandardTypesMangling.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StandardTypesMangling.def; sourceTree = "<group>"; };
@@ -1493,6 +1502,8 @@
 				CB5633CB1DD5392A0023CEB6 /* KSCrashMonitorContext.h */,
 				CBF53D5F17EB765C0056DA83 /* KSCrashMonitorType.c */,
 				CBF53D6017EB765C0056DA83 /* KSCrashMonitorType.h */,
+				781BC62926CD57F90086EC4B /* NSZombieBase.h */,
+				781BC62A26CD57F90086EC4B /* NSZombieBase.m */,
 			);
 			name = Monitors;
 			sourceTree = "<group>";
@@ -1739,6 +1750,7 @@
 				03DE7C901C84DFAB00F789BA /* KSSignalInfo.h in Headers */,
 				03DE7C6D1C84DFA400F789BA /* Fallthrough.h in Headers */,
 				CB25A5F31DF2396700EC2B02 /* KSDebug.h in Headers */,
+				781BC62C26CD57F90086EC4B /* NSZombieBase.h in Headers */,
 				03DE7C621C84DF9200F789BA /* None.h in Headers */,
 				97BB896F26337E2B008ED481 /* Visibility.h in Headers */,
 				03DE7C8B1C84DFAB00F789BA /* KSObjC.h in Headers */,
@@ -1800,6 +1812,7 @@
 				CBF53E6E17EB7EA80056DA83 /* KSLogger.h in Headers */,
 				CBF53E7617EB7EA80056DA83 /* KSSysCtl.h in Headers */,
 				CBF53E6117EB7EA80056DA83 /* KSCrashMonitor_Deadlock.h in Headers */,
+				781BC62B26CD57F90086EC4B /* NSZombieBase.h in Headers */,
 				CBF53E9117EB7EA80056DA83 /* NSError+SimpleConstructor.h in Headers */,
 				CB69B8C81DC03FFF002713B1 /* KSDate.h in Headers */,
 				CBF53E9217EB7EA80056DA83 /* NSMutableData+AppendUTF8.h in Headers */,
@@ -1861,6 +1874,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDF2BEC11CCF15AD004BADF4 /* KSCrashFramework.h in Headers */,
+				781BC62D26CD57F90086EC4B /* NSZombieBase.h in Headers */,
 				EDF2BEC21CCF15AD004BADF4 /* KSCrash.h in Headers */,
 				EDF2BEC41CCF15AD004BADF4 /* KSCrashC.h in Headers */,
 				CB5657F01E1D8A71005A8302 /* KSStackCursor_SelfThread.h in Headers */,
@@ -2190,6 +2204,7 @@
 				CBA8A0C61E2561210019B5B9 /* KSCrashCachedData.c in Sources */,
 				97BB897826337E2B008ED481 /* NodePrinter.cpp in Sources */,
 				03DE7CBE1C84DFC100F789BA /* KSCString.m in Sources */,
+				781BC63026CD57F90086EC4B /* NSZombieBase.m in Sources */,
 				03DE7CBC1C84DFBC00F789BA /* NSData+KSGZip.m in Sources */,
 				03DE7C8A1C84DFAB00F789BA /* KSObjC.c in Sources */,
 				97BB897626337E2B008ED481 /* ManglingUtils.cpp in Sources */,
@@ -2274,6 +2289,7 @@
 				CBF53DDA17EB765C0056DA83 /* KSCrashReportSinkEMail.m in Sources */,
 				CBC43F2F1C5AF2B10083A11B /* Demangle.cpp in Sources */,
 				CB7A6C9017FB96E800997792 /* KSDynamicLinker.c in Sources */,
+				781BC62E26CD57F90086EC4B /* NSZombieBase.m in Sources */,
 				CBF53DD417EB765C0056DA83 /* KSCrashReportFilterSets.m in Sources */,
 				CBF53E3517EB765C0056DA83 /* KSSysCtl.c in Sources */,
 				CBF53DAE17EB765C0056DA83 /* KSCrashInstallation.m in Sources */,
@@ -2361,6 +2377,7 @@
 				CB0264BE17FA5B13003E0AED /* KSLogger_Tests.m in Sources */,
 				CB0264BB17FA5B13003E0AED /* KSCString_Tests.m in Sources */,
 				CB0264CC17FA5B13003E0AED /* XCTestCase+KSCrash.m in Sources */,
+				781BC62F26CD57F90086EC4B /* NSZombieBase.m in Sources */,
 				CBA8A0CC1E2579FE0019B5B9 /* KSCrashCachedData_Tests.m in Sources */,
 				CB0C19C61DD1265B005B2F80 /* KSCrashReportFixer_Tests.m in Sources */,
 				CB0264C317FA5B13003E0AED /* KSString_Tests.m in Sources */,
@@ -2450,6 +2467,7 @@
 				CBB61CC31E0035E4000C24A6 /* KSID.c in Sources */,
 				EDF2BEAC1CCF15AD004BADF4 /* KSCrashReportSinkStandard.m in Sources */,
 				CBA8A0C71E2561210019B5B9 /* KSCrashCachedData.c in Sources */,
+				781BC63126CD57F90086EC4B /* NSZombieBase.m in Sources */,
 				EDF2BEAD1CCF15AD004BADF4 /* KSCString.m in Sources */,
 				EDF2BEAE1CCF15AD004BADF4 /* NSData+KSGZip.m in Sources */,
 				EDF2BEB01CCF15AD004BADF4 /* KSObjC.c in Sources */,

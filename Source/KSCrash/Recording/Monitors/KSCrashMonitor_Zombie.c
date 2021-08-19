@@ -106,11 +106,13 @@ static bool copyStringIvar(const void* self, const char* ivarName, char* buffer,
 
 static void storeException(const void* exception)
 {
+    KSLOG_INFO("storeException === ");
     g_lastDeallocedException.address = exception;
     copyStringIvar(exception, "name", g_lastDeallocedException.name, sizeof(g_lastDeallocedException.name));
     copyStringIvar(exception, "reason", g_lastDeallocedException.reason, sizeof(g_lastDeallocedException.reason));
 }
 
+/// 所有对象的释放回调函数
 static inline void handleDealloc(const void* self)
 {
     volatile Zombie* cache = g_zombieCache;
@@ -122,6 +124,7 @@ static inline void handleDealloc(const void* self)
         zombie->className = class_getName(class);
         for(; class != nil; class = class_getSuperclass(class))
         {
+            /// 这里判断只有异常进行处理
             unlikely_if(class == g_lastDeallocedException.class)
             {
                 storeException(self);
@@ -166,7 +169,10 @@ static void install()
         return;
     }
 
-    g_lastDeallocedException.class = objc_getClass("NSException");
+//    g_lastDeallocedException.class = objc_getClass("NSException");
+//    g_lastDeallocedException.class = objc_getClass("MyTest");
+    g_lastDeallocedException.class = objc_getClass("MyNSURL");
+//    g_lastDeallocedException.class = objc_getClass("NSArray");
     g_lastDeallocedException.address = NULL;
     g_lastDeallocedException.name[0] = 0;
     g_lastDeallocedException.reason[0] = 0;

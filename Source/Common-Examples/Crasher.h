@@ -32,6 +32,8 @@
 
 - (void) zombieNSException;
 
+- (void) zombieNSURL;
+
 - (void) corruptMemory;
 
 - (void) deadlock;
@@ -41,5 +43,14 @@
 - (void) userDefinedCrash;
 
 - (void) throwUncaughtCPPException;
+
+@end
+
+
+@interface MyTest : NSObject
+
+@end
+
+@interface MyNSURL : NSURL
 
 @end

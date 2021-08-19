@@ -188,7 +188,8 @@ void kscm_setActiveMonitors(KSCrashMonitorType monitorTypes)
     if (isDebugBreakpoint) {
         //  | KSCrashMonitorTypeMachException 配置上去会发生crash
 //        monitorTypes = monitorTypes | KSCrashMonitorTypeNSException | KSCrashMonitorTypeCPPException | KSCrashMonitorTypeMachException;
-        monitorTypes = monitorTypes | KSCrashMonitorTypeMainThreadDeadlock;
+//        monitorTypes = monitorTypes | KSCrashMonitorTypeMainThreadDeadlock;
+        monitorTypes = monitorTypes | KSCrashMonitorTypeZombie;
 //        monitorTypes = KSCrashMonitorTypeNSException | KSCrashMonitorTypeCPPException;
 //        monitorTypes = monitorTypes & (~KSCrashMonitorTypeMachException);
 //        monitorTypes = monitorTypes & (~KSCrashMonitorTypeSignal);

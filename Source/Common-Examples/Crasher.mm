@@ -6,6 +6,7 @@
 
 #import "Crasher.h"
 #import <KSCrash/KSCrash.h>
+//#import <KSCrash/NSZombieBase.h>
 #import <pthread.h>
 #import <exception>
 
@@ -19,7 +20,6 @@ const char* MyException::what() const noexcept
 {
     return "Something bad happened...";
 }
-
 
 class MyCPPClass
 {
@@ -217,6 +217,22 @@ static volatile int counter = 0; // To prevent recursion optimization
     }
 }
 
+- (void) zombieNSURL
+{
+//    NSURL *url = [NSURL new]; // 不会正常调用进去
+//    MyTest *url = [MyTest new];
+    MyNSURL *url = [MyNSURL new];
+//    NSArray *url = [NSArray new]; // 比较多，不容易查找.
+    RefHolder* ref = [RefHolder new];
+//        ref.ref = exception;
+    ref.ref = url;
+
+    dispatch_async(dispatch_get_main_queue(), ^
+                   {
+                       NSLog(@"inner url = %@", ref.ref);
+                   });
+    NSLog(@"outer url = %@", ref.ref);
+}
 /// memset 操作非法写
 - (void) corruptMemory
 {
@@ -276,6 +292,25 @@ static volatile int counter = 0; // To prevent recursion optimization
 {
     MyCPPClass instance;
     instance.throwAnException();
+}
+
+@end
+
+@implementation MyTest
+
+- (void)dealloc
+{
+    NSLog(@"MyTest dealloc");
+}
+
+@end
+
+
+@implementation MyNSURL
+
+- (void)dealloc
+{
+    NSLog(@"MyNSURL dealloc");
 }
 
 @end
